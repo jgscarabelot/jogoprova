@@ -1,5 +1,5 @@
-const canvas = document.getElementById('jogoCanvas')
-const ctx = canvas.getContext('2d')
+const canvas = document.getElementById('jogoCanvas');
+const ctx = canvas.getContext('2d');
 
 const teclasPressionadas = {
    KeyW: false,
@@ -33,6 +33,8 @@ class Entidade {
 class Cobra extends Entidade {
    constructor(x, y, largura, altura) {
        super(x, y, largura, altura);
+       this.imagem = new Image();
+       this.imagem.src = 'cobra.png'; 
    }
    atualizar() {
        if (teclasPressionadas.KeyW) {
@@ -49,10 +51,10 @@ class Cobra extends Entidade {
    }
 
    verificarColisaoBorda() {
-       if (this.x < 0 || this.x + this.largura > canvas.width || 
+       if (this.x < 0 || this.x + this.largura > canvas.width ||
            this.y < 0 || this.y + this.altura > canvas.height) {
-           alert("Game Over!");
-           window.location.reload(); 
+           alert("Perdeu");
+           location.reload(); 
        }
    }
 
@@ -68,22 +70,27 @@ class Cobra extends Entidade {
    }
 
    #houveColisao(comida) {
-       comida.x = Math.random() * (canvas.width - 10);
-       comida.y = Math.random() * (canvas.height - 10);
+       comida.x = Math.random() * (canvas.width - comida.largura);
+       comida.y = Math.random() * (canvas.height - comida.altura);
+   }
+   
+   desenhar() {
+       ctx.drawImage(this.imagem, this.x, this.y, this.largura, this.altura);
    }
 }
 
 class Comida extends Entidade {
    constructor() {
-       super(Math.random() * (canvas.width - 10), Math.random() * (canvas.height - 10), 20, 20);
+       super(Math.random() * (canvas.width - 45), Math.random() * (canvas.height - 45), 45, 45);
+       this.imagem = new Image();
+       this.imagem.src = 'fruta.png'; 
    }
    desenhar() {
-       ctx.fillStyle = 'red';
-       ctx.fillRect(this.x, this.y, this.largura, this.altura);
+       ctx.drawImage(this.imagem, this.x, this.y, this.largura, this.altura);
    }
 }
 
-const cobra = new Cobra(100, 200, 20, 20);
+const cobra = new Cobra(100, 200, 50, 50);
 const comida = new Comida();
 
 function loop() {
