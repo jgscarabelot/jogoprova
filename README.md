@@ -23,7 +23,7 @@ Objetivo do jogo é você guiar a cobra🐍 até a maçã🍎 e come-la, toda ve
 
  • Deve haver no mínimo 2 branches.✅
 
- • Sempre realizar commits com mensagens
+ • Sempre realizar commits com mensagens✅
 
 
 # COMO JOGAR🎮
