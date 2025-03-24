@@ -1,6 +1,8 @@
 const canvas = document.getElementById('jogoCanvas');
 const ctx = canvas.getContext('2d');
 
+let pontuacao = 0;
+
 const teclasPressionadas = {
    KeyW: false,
    KeyS: false,
@@ -53,7 +55,7 @@ class Cobra extends Entidade {
    verificarColisaoBorda() {
        if (this.x < 0 || this.x + this.largura > canvas.width ||
            this.y < 0 || this.y + this.altura > canvas.height) {
-           alert("Perdeu");
+           alert("Perdeu! Pontuação: " + pontuacao);
            location.reload(); 
        }
    }
@@ -72,6 +74,7 @@ class Cobra extends Entidade {
    #houveColisao(comida) {
        comida.x = Math.random() * (canvas.width - comida.largura);
        comida.y = Math.random() * (canvas.height - comida.altura);
+       pontuacao += 1; 
    }
    
    desenhar() {
@@ -90,6 +93,12 @@ class Comida extends Entidade {
    }
 }
 
+function desenharPontuacao() {
+   ctx.fillStyle = 'black';
+   ctx.font = '20px Arial';
+   ctx.fillText('Pontuação: ' + pontuacao, 10, 20);
+}
+
 const cobra = new Cobra(100, 200, 50, 50);
 const comida = new Comida();
 
@@ -99,6 +108,7 @@ function loop() {
    cobra.atualizar();
    comida.desenhar();
    cobra.verificarColisao(comida);
+   desenharPontuacao();
    requestAnimationFrame(loop);
 }
 loop();
